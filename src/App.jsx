@@ -1,36 +1,17 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import StartScreen from './components/StartScreen'
 import Question from './components/Question'
 import Results from './components/Results'
+import { questions as localQuestions } from './data/questions'
 import './App.css'
-
-const API_BASE = '/api'
 
 export default function App() {
   const [screen, setScreen] = useState('start') // 'start' | 'quiz' | 'results'
-  const [questions, setQuestions] = useState([])
+  const [questions] = useState(localQuestions)
   const [current, setCurrent] = useState(0)
   const [userAnswers, setUserAnswers] = useState([])
-  const [loading, setLoading] = useState(false)
-  const [error, setError] = useState(null)
 
-  const fetchQuestions = async () => {
-    setLoading(true)
-    setError(null)
-    try {
-      const res = await fetch(`${API_BASE}/questions`)
-      if (!res.ok) throw new Error('Failed to load questions')
-      const data = await res.json()
-      setQuestions(data)
-    } catch (err) {
-      setError(err.message)
-    } finally {
-      setLoading(false)
-    }
-  }
-
-  const handleStart = async () => {
-    await fetchQuestions()
+  const handleStart = () => {
     setCurrent(0)
     setUserAnswers([])
     setScreen('quiz')
@@ -58,16 +39,6 @@ export default function App() {
     setScreen('start')
   }
 
-  if (error) {
-    return (
-      <div className="error-screen">
-        <h2>Unable to load quiz</h2>
-        <p>{error}</p>
-        <button onClick={handleStart}>Try Again</button>
-      </div>
-    )
-  }
-
   return (
     <div className="app">
       <header className="app-header">
@@ -77,7 +48,7 @@ export default function App() {
 
       <main className="app-main">
         {screen === 'start' && (
-          <StartScreen onStart={handleStart} loading={loading} />
+          <StartScreen onStart={handleStart} loading={false} />
         )}
         {screen === 'quiz' && questions.length > 0 && (
           <Question

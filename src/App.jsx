@@ -5,15 +5,29 @@ import Results from './components/Results'
 import { questions as localQuestions } from './data/questions'
 import './App.css'
 
+const API_BASE = 'https://quiz-platform-v2-api.stephen-api.workers.dev'
+
 export default function App() {
   const [screen, setScreen] = useState('start') // 'start' | 'quiz' | 'results'
-  const [questions] = useState(localQuestions)
+  const [questions, setQuestions] = useState([])
   const [current, setCurrent] = useState(0)
   const [userAnswers, setUserAnswers] = useState([])
+  const [loading, setLoading] = useState(false)
 
-  const handleStart = () => {
+  const handleStart = async () => {
     setCurrent(0)
     setUserAnswers([])
+    setLoading(true)
+    try {
+      const res = await fetch(`${API_BASE}/api/questions`)
+      if (!res.ok) throw new Error()
+      const data = await res.json()
+      setQuestions(data)
+    } catch {
+      setQuestions(localQuestions) // fallback to local data if API is unreachable
+    } finally {
+      setLoading(false)
+    }
     setScreen('quiz')
   }
 
@@ -48,7 +62,7 @@ export default function App() {
 
       <main className="app-main">
         {screen === 'start' && (
-          <StartScreen onStart={handleStart} loading={false} />
+          <StartScreen onStart={handleStart} loading={loading} />
         )}
         {screen === 'quiz' && questions.length > 0 && (
           <Question

@@ -1,0 +1,74 @@
+.results {
+  background: white;
+  border-radius: 12px;
+  padding: 48px 40px;
+  box-shadow: 0 2px 16px rgba(0, 0, 0, 0.08);
+  text-align: center;
+}
+
+.score-circle {
+  width: 140px;
+  height: 140px;
+  border-radius: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 24px;
+  font-weight: 700;
+}
+
+.score-circle .score-num { font-size: 2.8rem; line-height: 1; }
+.score-circle .score-denom { font-size: 1rem; opacity: 0.8; }
+
+.grade-pass { background: #c6f6d5; color: #22543d; }
+.grade-fail { background: #fed7d7; color: #742a2a; }
+
+.results h2 { font-size: 1.6rem; margin-bottom: 10px; }
+
+.grade-msg {
+  font-size: 1.05rem;
+  color: #718096;
+  margin-bottom: 28px;
+}
+
+.breakdown-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 24px 0;
+  font-size: 0.93rem;
+  text-align: left;
+}
+
+.breakdown-table th {
+  background: #ebf8ff;
+  color: #2b6cb0;
+  padding: 10px 14px;
+  font-weight: 700;
+  border-bottom: 2px solid #bee3f8;
+}
+
+.breakdown-table td {
+  padding: 9px 14px;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.breakdown-table tr:last-child td { border-bottom: none; }
+
+.tag-correct { color: #276749; font-weight: 700; }
+.tag-wrong   { color: #9b2c2c; font-weight: 700; }
+
+.btn-restart {
+  background: #2b6cb0;
+  color: white;
+  border: none;
+  padding: 13px 36px;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 16px;
+  transition: background 0.18s;
+}
+
+.btn-restart:hover { background: #2c5282; }

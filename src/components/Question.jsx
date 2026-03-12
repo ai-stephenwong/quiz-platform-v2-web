@@ -22,16 +22,10 @@ export default function Question({
     if (answered) return
     setAnswered(true)
     onAnswer(idx)
+    onNext() // auto-advance immediately, no answer revealed
   }
 
   const pct = Math.round(((questionNumber - 1) / total) * 100) + Math.round(100 / total / 2)
-
-  const getOptionClass = (idx) => {
-    if (!answered) return 'option-btn'
-    if (idx === question.answer) return 'option-btn correct'
-    if (idx === selectedAnswer && selectedAnswer !== question.answer) return 'option-btn wrong'
-    return 'option-btn'
-  }
 
   return (
     <div className="question-wrap">
@@ -50,7 +44,7 @@ export default function Question({
           {question.options.map((opt, idx) => (
             <button
               key={idx}
-              className={getOptionClass(idx)}
+              className="option-btn"
               onClick={() => handleSelect(idx)}
               disabled={answered}
             >
@@ -59,21 +53,6 @@ export default function Question({
             </button>
           ))}
         </div>
-
-        {answered && (
-          <div className={`feedback ${selectedAnswer === question.answer ? 'correct-fb' : 'wrong-fb'}`}>
-            {selectedAnswer === question.answer ? '✔ Correct! ' : '✘ Incorrect. '}
-            {question.explanation}
-          </div>
-        )}
-
-        {answered && (
-          <div className="nav-row">
-            <button className="btn-next" onClick={onNext}>
-              {isLast ? 'See Results' : 'Next →'}
-            </button>
-          </div>
-        )}
       </div>
     </div>
   )
